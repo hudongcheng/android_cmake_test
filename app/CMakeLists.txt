@@ -27,20 +27,17 @@ add_library(my-add
 include_directories(src/main/cpp/my-add/)
 
 
+#add_library(imported-lib
+#    SHARED
+#    imported-lib/import-lib.c )
+
 add_library(imported-lib
-
     SHARED
+    IMPORTED GLOBAL)
 
-    imported-lib/import-lib.c )
-
-#set_target_properties( # Specifies the target library.
-#                       imported-lib
-#
-#                       # Specifies the parameter you want to define.
-#                       PROPERTIES IMPORTED_LOCATION
-#
-#                       # Provides the path to the library you want to import.
-#                       imported-lib/libimported-lib.so )
+set_target_properties( imported-lib
+                       PROPERTIES IMPORTED_LOCATION
+                       ${CMAKE_CURRENT_LIST_DIR}/imported-lib/libimported-lib.so )
 
 include_directories(imported-lib/)
 
@@ -50,13 +47,14 @@ include_directories(imported-lib/)
 # you want to add. CMake verifies that the library exists before
 # completing its build.
 
-find_library( # Sets the name of the path variable.
-              log-lib
-
-              # Specifies the name of the NDK library that
-              # you want CMake to locate.
-              jnigraphics
+find_library( log-lib
               log )
+
+find_library( graphics-lib
+              jnigraphics )
+
+add_subdirectory( sublibs )
+include_directories( sublibs )
 
 # Specifies libraries CMake should link to your target library. You
 # can link multiple libraries, such as libraries you define in the
@@ -67,6 +65,9 @@ target_link_libraries( # Specifies the target library.
 
                        # Links the target library to the log library
                        # included in the NDK.
-                       my-add
-                       imported-lib
+                       #my-add
+                       #imported-lib
+                       add1
+                       add2
+                       #${graphics-lib}
                        ${log-lib} )
