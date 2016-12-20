@@ -31,6 +31,16 @@ include_directories(src/main/cpp/my-add/)
 #    SHARED
 #    imported-lib/import-lib.c )
 
+#add_library(bigint
+#    STATIC
+#    IMPORTED )
+
+#set_target_properties( # Specifies the target library.
+#                       bigint
+#                       PROPERTIES IMPORTED_LOCATION
+#                       ${CMAKE_CURRENT_LIST_DIR}/imported-lib/${ANDROID_ABI}/libbigint.a )
+
+
 add_library(imported-lib
     SHARED
     IMPORTED GLOBAL)
