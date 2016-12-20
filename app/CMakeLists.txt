@@ -27,20 +27,37 @@ add_library(my-add
 include_directories(src/main/cpp/my-add/)
 
 
+add_library(bigint
+
+    STATIC
+
+    IMPORTED )
+
+set_target_properties( # Specifies the target library.
+                       bigint
+
+                       # Specifies the parameter you want to define.
+                       PROPERTIES IMPORTED_LOCATION
+
+                       # Provides the path to the library you want to import.
+                       ${CMAKE_CURRENT_LIST_DIR}/imported-lib/${ANDROID_ABI}/libbigint.a )
+
+
 add_library(imported-lib
 
     SHARED
 
-    imported-lib/import-lib.c )
+    IMPORTED )
 
-#set_target_properties( # Specifies the target library.
-#                       imported-lib
-#
-#                       # Specifies the parameter you want to define.
-#                       PROPERTIES IMPORTED_LOCATION
-#
-#                       # Provides the path to the library you want to import.
-#                       imported-lib/libimported-lib.so )
+set_target_properties( # Specifies the target library.
+                       imported-lib
+
+                       # Specifies the parameter you want to define.
+                       PROPERTIES IMPORTED_LOCATION
+
+                       # Provides the path to the library you want to import.
+                       ${CMAKE_CURRENT_LIST_DIR}/imported-lib/${ANDROID_ABI}/libimported-lib.so )
+
 
 include_directories(imported-lib/)
 
@@ -69,4 +86,5 @@ target_link_libraries( # Specifies the target library.
                        # included in the NDK.
                        my-add
                        imported-lib
+                       bigint
                        ${log-lib} )
